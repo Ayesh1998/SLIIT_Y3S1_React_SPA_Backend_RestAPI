@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const HttpError = require("./models/http-errors");
@@ -17,4 +18,13 @@ app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
 });
 
-app.listen(5000);
+mongoose
+  .connect(
+    "mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(5000);
+  })
+  .catch(error => {
+    console.log(error);
+  });
