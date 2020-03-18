@@ -1,36 +1,46 @@
 const uuid = require("uuid/v4");
 const HttpError = require("../models/http-errors");
+const User = require("../models/users-model");
 
-const DUMMY_USERS = [
-  {
-    id: "u1",
-    firstName: "Max Schwarz",
-    lastName: "fdfdf",
-    email: "test@test.com",
-    teleNo: "0774455112",
-    password: "testers"
-  }
-];
-
-const signup = (req, res, next) => {
+const signup = async (req, res, next) => {
   const { firstName, lastName, email, teleNo, password } = req.body;
 
-  const hasUser = DUMMY_USERS.find(u => u.email === email);
-  if (hasUser) {
-    throw new HttpError("Could not create user, email already exists.", 422);
+  let existingUser;
+
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError(
+      "Signing up failed, please try again later.",
+      500
+    );
+    return next(error);
   }
 
-  const createdUser = {
-    id: uuid(),
+  if (existingUser) {
+    const error = new HttpError(
+      "User already exists, please login instead.",
+      422
+    );
+    return next(error);
+  }
+
+  const createdUser = new User({
     firstName,
     lastName,
     teleNo,
     email,
     password
-  };
-  DUMMY_USERS.push(createdUser);
+  });
 
-  res.status(201).json({ user: createdUser });
+  try {
+    await createdUser.save();
+  } catch (err) {
+    const error = new HttpError("Signing up failed, please try again.", 500);
+    return next(error);
+  }
+
+  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
 const login = (req, res, next) => {
