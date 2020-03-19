@@ -14,6 +14,10 @@ const signup = async (req, res, next) => {
       "Signing up failed, please try again later.",
       500
     );
+    res.json({
+      message: "Signing up failed, please try again later.",
+      login: 0
+    });
     return next(error);
   }
 
@@ -22,6 +26,10 @@ const signup = async (req, res, next) => {
       "User already exists, please login instead.",
       422
     );
+    res.json({
+      message: "User already exists, please login instead.",
+      login: 0
+    });
     return next(error);
   }
 
@@ -34,9 +42,12 @@ const signup = async (req, res, next) => {
   });
 
   try {
+    console.log(createdUser);
     await createdUser.save();
+    res.json({ message: "Signed Up", login: 1 });
   } catch (err) {
     const error = new HttpError("Signing up failed, please try again.", 500);
+    res.json({ message: "Signing up failed, please try again.", login: 0 });
     return next(error);
   }
 
@@ -54,15 +65,17 @@ const login = async (req, res, next) => {
       "Login up failed, please try again later.",
       500
     );
+    res.json({ message: "Login up failed, please try again later.", login: 0 });
     return next(error);
   }
 
   if (!existingUser || existingUser.password !== password) {
     const error = new HttpError("Invalid username or password.", 401);
+    res.json({ message: "Invalid username or password", login: 0 });
     return next(error);
   }
 
-  res.json({ message: "Logged in!" });
+  res.json({ message: "Logged in!", login: 1 });
 };
 
 exports.login = login;
