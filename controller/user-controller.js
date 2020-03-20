@@ -3,7 +3,15 @@ const HttpError = require("../models/http-errors");
 const User = require("../models/users-model");
 
 const signup = async (req, res, next) => {
-  const { firstName, lastName, email, teleNo, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    teleNo,
+    password,
+    passwordResetQuestion,
+    answer
+  } = req.body;
 
   let existingUser;
 
@@ -38,7 +46,9 @@ const signup = async (req, res, next) => {
     lastName,
     teleNo,
     email,
-    password
+    password,
+    passwordResetQuestion,
+    answer
   });
 
   try {
