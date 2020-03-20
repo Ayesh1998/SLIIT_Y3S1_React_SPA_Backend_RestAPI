@@ -88,5 +88,77 @@ const login = async (req, res, next) => {
   res.json({ message: "Logged in!", login: 1 });
 };
 
+const updatePasswordRequest = async (req, res, next) => {
+  const { email } = req.body;
+  let existingUser;
+
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError(
+      "Email check up failed, please try again later.",
+      500
+    );
+    res.json({
+      message: "Email check up failed, please try again later.",
+      login: 0
+    });
+    return next(error);
+  }
+
+  if (!existingUser) {
+    const error = new HttpError("Invalid email", 401);
+    res.json({ message: "Invalid email", login: 0 });
+    return next(error);
+  }
+
+  res.json({
+    message: "Logged in!",
+    login: 1,
+    user: existingUser.toObject({ getters: true })
+  });
+};
+
+const updatePassword = async (req, res, next) => {
+  const { email, id, password } = req.body;
+  let user;
+
+  try {
+    user = await User.findById(id);
+  } catch (err) {
+    const error = new HttpError(
+      "Password update failed, please try again later.",
+      500
+    );
+    res.json({
+      message: "Password update failed, please try again later.",
+      login: 0
+    });
+    return next(error);
+  }
+
+  user.password = password;
+
+  try {
+    await user.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update user password.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ user: user.toObject({ getters: true }) });
+
+  res.json({
+    message: "Logged in!",
+    login: 1,
+    user: user.toObject({ getters: true })
+  });
+};
+
 exports.login = login;
 exports.signup = signup;
+exports.updatePasswordRequest = updatePasswordRequest;
+exports.updatePassword = updatePassword;

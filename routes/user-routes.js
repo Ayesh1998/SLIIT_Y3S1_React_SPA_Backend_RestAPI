@@ -8,4 +8,8 @@ router.post("/signup", usersController.signup);
 
 router.post("/login", usersController.login);
 
+router.post("/updatePasswordRequest", usersController.updatePasswordRequest);
+
+router.post("/updatePassword", usersController.updatePassword);
+
 module.exports = router;
