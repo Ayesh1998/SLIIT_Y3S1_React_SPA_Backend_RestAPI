@@ -1,5 +1,5 @@
-# SLIIT_Y3S1_React_SPA_Backend_RestAPI
+# SLIIT Y3S1 AF Project Backend Rest API with Express
 
-## Backend of the react project
+## Backend of the React project
 
 ### Online Shopping Cart System for a Fashion Store 
