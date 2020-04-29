@@ -10,7 +10,8 @@ const userSchema = new Schema({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   passwordResetQuestion: {type: String, required: true},
-  answer: {type: String, required: true}
+  answer: {type: String, required: true},
+  type: {type: String, default: 'Customer'}
 });
 
 userSchema.plugin(uniqueValidator);

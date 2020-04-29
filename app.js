@@ -1,9 +1,9 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 
-const HttpError = require("./models/http-errors");
+const httpError = require("./models/http-errors");
 const userRoutes = require("./routes/user-routes");
 const adminRoutes = require("./routes/admin-routes");
 
@@ -18,12 +18,13 @@ app.use("/users", userRoutes);
 app.use("/admin", adminRoutes);
 
 app.use((req, res, next) => {
-  throw new HttpError("Could not find this route.", 404);
+  throw new httpError("Could not find this route.", 404);
 });
 
 mongoose
   .connect(
-    "mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority"
+    "mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority",
+    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}
   )
   .then(() => {
     app.listen(5000);
