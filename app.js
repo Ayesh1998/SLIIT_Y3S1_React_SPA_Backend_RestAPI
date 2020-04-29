@@ -2,18 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const HttpError = require("./models/http-errors");
 
+const HttpError = require("./models/http-errors");
 const userRoutes = require("./routes/user-routes");
+const adminRoutes = require("./routes/admin-routes");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(cors());
 
 app.use("/users", userRoutes);
+app.use("/admin", adminRoutes);
 
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
