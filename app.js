@@ -21,11 +21,16 @@ app.use((req, res, next) => {
   throw new httpError("Could not find this route.", 404);
 });
 
+const uri = 'mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority';
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+};
+
 mongoose
-  .connect(
-    "mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority",
-    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}
-  )
+  .connect(uri, options)
   .then(() => {
     app.listen(5000);
   })
