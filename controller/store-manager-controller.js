@@ -11,8 +11,7 @@ const addStoreManager = async (req, res, next) => {
     telNo,
     password,
     passwordResetQuestion,
-    answer,
-    type
+    answer
   } = req.body;
 
   try {
@@ -43,7 +42,7 @@ const addStoreManager = async (req, res, next) => {
     password,
     passwordResetQuestion,
     answer,
-    type
+    type: 'Store Manager'
   });
 
   try {
