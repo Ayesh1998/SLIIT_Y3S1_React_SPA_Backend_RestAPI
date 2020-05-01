@@ -153,11 +153,65 @@ const deleteCategory = async (req, res, next) => {
 }
 
 const getCategory = async (req, res, next) => {
+  let category
 
+  const {
+    id
+  } = req.body
+
+  try {
+    category = await Category.findById(id)
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: category.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Product category retrieved successfully!",
+    category: category.toObject({
+      getters: true
+    })
+  })
+
+  res.send(category)
 }
 
 const getCategoryList = async (req, res, next) => {
+  let categoryList
 
+  try {
+    categoryList = await Category.find()
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: categoryList.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Product category list retrieved successfully!",
+    category: categoryList.toObject({
+      getters: true
+    })
+  })
+
+  res.send(categoryList)
 }
 
 exports.addCategory = addCategory

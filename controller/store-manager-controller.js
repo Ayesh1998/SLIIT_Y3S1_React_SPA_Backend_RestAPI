@@ -73,7 +73,7 @@ const addStoreManager = async (req, res, next) => {
 }
 
 const updateStoreManager = async (req, res, next) => {
-  let user
+  let storeManager
 
   const {
     id,
@@ -84,7 +84,7 @@ const updateStoreManager = async (req, res, next) => {
   } = req.body
 
   try {
-    user = await User.findById(id)
+    storeManager = await User.findById(id)
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -93,13 +93,13 @@ const updateStoreManager = async (req, res, next) => {
     return next(error)
   }
 
-  user.firstName = firstName
-  user.lastName = lastName
-  user.teleNo = teleNo
-  user.email = email
+  storeManager.firstName = firstName
+  storeManager.lastName = lastName
+  storeManager.teleNo = teleNo
+  storeManager.email = email
 
   try {
-    await user.save()
+    await storeManager.save()
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -109,28 +109,28 @@ const updateStoreManager = async (req, res, next) => {
   }
 
   res.status(200).json({
-    user: user.toObject({
+    user: storeManager.toObject({
       getters: true
     })
   })
 
   res.json({
     message: "Stock manager updated successfully!",
-    user: user.toObject({
+    user: storeManager.toObject({
       getters: true
     })
   })
 }
 
 const deleteStoreManager = async (req, res, next) => {
-  let user
+  let storeManager
 
   const {
     id
   } = req.body
 
   try {
-    user = await User.findById(id)
+    storeManager = await User.findById(id)
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -140,7 +140,7 @@ const deleteStoreManager = async (req, res, next) => {
   }
 
   try {
-    await user.remove()
+    await storeManager.remove()
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -150,30 +150,98 @@ const deleteStoreManager = async (req, res, next) => {
   }
 
   res.status(200).json({
-    category: user.toObject({
+    category: storeManager.toObject({
       getters: true
     })
   })
 
   res.json({
     message: "Stock manager deleted successfully!",
-    category: user.toObject({
+    category: storeManager.toObject({
       getters: true
     })
   })
 }
 
 const getStoreManager = async (req, res, next) => {
+  let storeManager
 
+  const {
+    id
+  } = req.body
+
+  try {
+    storeManager = await User.findById(id)
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: storeManager.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Store manager retrieved successfully!",
+    category: storeManager.toObject({
+      getters: true
+    })
+  })
+
+  res.send(storeManager)
 }
 
 const getStoreManagerList = async (req, res, next) => {
+  let storeManagerList
 
+  try {
+    storeManagerList = await User.find({
+      type: 'Store Manager'
+    })
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: storeManagerList.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Store manager list retrieved successfully!",
+    category: storeManagerList.toObject({
+      getters: true
+    })
+  })
+
+  res.send(storeManagerList)
 }
 
-const sendEmail = {
-  //
-}
+// const sendEmail = () => {
+//   let info = {
+//     from: 'it18149654@my.sliit.lk',
+//     to: '',
+//     subject: 'Added as a Store Manager',
+//     text: ''
+//   }
+//   transporter.sendMail(info, (err, data) => {
+//     if (err) {
+//       console.log(err)
+//     } else {
+//       console.log("sent")
+//     }
+//   })
+// }
 
 exports.addStoreManager = addStoreManager
 exports.updateStoreManager = updateStoreManager
