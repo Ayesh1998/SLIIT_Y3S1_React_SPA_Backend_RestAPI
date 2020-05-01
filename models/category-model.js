@@ -4,7 +4,6 @@ const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema
 
 const categorySchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   categoryTitle: {
     type: String,
     required: true,

@@ -38,6 +38,7 @@ const addCategory = async (req, res, next) => {
 
   try {
     await newCategory.save();
+    console.log(newCategory);
     res.json({
       message: "New product category added!"
     });
@@ -89,6 +90,7 @@ const updateCategory = async (req, res, next) => {
 
   try {
     await category.save();
+    console.log(category);
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500);
     res.json({

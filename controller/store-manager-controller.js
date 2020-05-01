@@ -8,7 +8,7 @@ const addStoreManager = async (req, res, next) => {
     firstName,
     lastName,
     email,
-    telNo,
+    teleNo,
     password,
     passwordResetQuestion,
     answer
@@ -37,7 +37,7 @@ const addStoreManager = async (req, res, next) => {
   const newStoreManager = new User({
     firstName,
     lastName,
-    telNo,
+    teleNo,
     email,
     password,
     passwordResetQuestion,
@@ -47,6 +47,7 @@ const addStoreManager = async (req, res, next) => {
 
   try {
     await newStoreManager.save();
+    console.log(newStoreManager);
     res.json({
       message: "New store manager added!"
     });
@@ -79,7 +80,7 @@ const updateStoreManager = async (req, res, next) => {
     id,
     firstName,
     lastName,
-    telNo,
+    teleNo,
     email
   } = req.body;
 
@@ -95,11 +96,12 @@ const updateStoreManager = async (req, res, next) => {
 
   user.firstName = firstName;
   user.lastName = lastName;
-  user.telNo = telNo;
+  user.teleNo = teleNo;
   user.email = email;
 
   try {
     await user.save();
+    console.log(user);
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500);
     res.json({
