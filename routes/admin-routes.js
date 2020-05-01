@@ -6,13 +6,13 @@ const storeManagerController = require("../controller/store-manager-controller")
 router.post("/AddCategory", categoryController.addCategory)
 router.post("/UpdateCategory", categoryController.updateCategory)
 router.post("/DeleteCategory", categoryController.deleteCategory)
-router.post("/Category/:id", categoryController.getCategory)
-router.post("/Category", categoryController.getCategoryList)
+router.post("/Category", categoryController.getCategory)
+router.post("/Categories", categoryController.getCategoryList)
 
 router.post("/AddStoreManager", storeManagerController.addStoreManager)
 router.post("/UpdateStoreManager", storeManagerController.updateStoreManager)
 router.post("/DeleteStoreManager", storeManagerController.deleteStoreManager)
-router.post("/StoreManager/:id", storeManagerController.getStoreManager)
-router.post("/StoreManager", storeManagerController.getStoreManagerList)
+router.post("/StoreManager", storeManagerController.getStoreManager)
+router.post("/StoreManagers", storeManagerController.getStoreManagerList)
 
 module.exports = router
