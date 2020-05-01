@@ -7,6 +7,10 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Ayesh1998/SLIIT_Y3S1_React_SPA_Backend_RestAPI"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
