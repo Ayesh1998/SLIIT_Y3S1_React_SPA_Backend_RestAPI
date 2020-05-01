@@ -38,7 +38,6 @@ const addCategory = async (req, res, next) => {
 
   try {
     await newCategory.save()
-    console.log(newCategory)
     res.json({
       message: "New product category added!"
     })
@@ -90,7 +89,6 @@ const updateCategory = async (req, res, next) => {
 
   try {
     await category.save()
-    console.log(category)
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -114,7 +112,44 @@ const updateCategory = async (req, res, next) => {
 }
 
 const deleteCategory = async (req, res, next) => {
+  let category
 
+  const {
+    id
+  } = req.body
+
+  try {
+    category = await Category.findById(id)
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  try {
+    await category.remove()
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: category.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Product category deleted successfully!",
+    category: category.toObject({
+      getters: true
+    })
+  })
 }
 
 const getCategory = async (req, res, next) => {

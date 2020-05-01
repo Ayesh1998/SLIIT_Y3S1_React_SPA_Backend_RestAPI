@@ -47,7 +47,6 @@ const addStoreManager = async (req, res, next) => {
 
   try {
     await newStoreManager.save()
-    console.log(newStoreManager)
     res.json({
       message: "New store manager added!"
     })
@@ -101,7 +100,6 @@ const updateStoreManager = async (req, res, next) => {
 
   try {
     await user.save()
-    console.log(user)
   } catch (err) {
     const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
     res.json({
@@ -125,7 +123,44 @@ const updateStoreManager = async (req, res, next) => {
 }
 
 const deleteStoreManager = async (req, res, next) => {
+  let user
 
+  const {
+    id
+  } = req.body
+
+  try {
+    user = await User.findById(id)
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  try {
+    await user.remove()
+  } catch (err) {
+    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    res.json({
+      message: "Unexpected internal server error occurred, please try again later."
+    })
+    return next(error)
+  }
+
+  res.status(200).json({
+    category: user.toObject({
+      getters: true
+    })
+  })
+
+  res.json({
+    message: "Stock manager deleted successfully!",
+    category: user.toObject({
+      getters: true
+    })
+  })
 }
 
 const getStoreManager = async (req, res, next) => {
