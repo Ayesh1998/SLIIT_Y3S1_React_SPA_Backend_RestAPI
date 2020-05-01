@@ -1,5 +1,5 @@
-const httpError = require("../models/http-errors")
-const Category = require("../models/category-model")
+const HttpError = require('../models/http-errors')
+const Category = require('../models/category-model')
 
 const addCategory = async (req, res, next) => {
   let existingCategory
@@ -15,17 +15,17 @@ const addCategory = async (req, res, next) => {
       categoryTitle: categoryTitle
     })
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
 
   if (existingCategory) {
-    const error = new httpError("A category with the same title already exists.", 409)
+    const error = new HttpError('A category with the same title already exists.', 409)
     res.json({
-      message: "A category with the same title already exists."
+      message: 'A category with the same title already exists.'
     })
     return next(error)
   }
@@ -39,12 +39,12 @@ const addCategory = async (req, res, next) => {
   try {
     await newCategory.save()
     res.json({
-      message: "New product category added!"
+      message: 'New product category added!'
     })
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -56,7 +56,7 @@ const addCategory = async (req, res, next) => {
   })
 
   res.json({
-    message: "New product category added successfully!",
+    message: 'New product category added successfully!',
     category: newCategory.toObject({
       getters: true
     })
@@ -76,9 +76,9 @@ const updateCategory = async (req, res, next) => {
   try {
     category = await Category.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -90,9 +90,9 @@ const updateCategory = async (req, res, next) => {
   try {
     await category.save()
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -104,7 +104,7 @@ const updateCategory = async (req, res, next) => {
   })
 
   res.json({
-    message: "Product category updated successfully!",
+    message: 'Product category updated successfully!',
     category: category.toObject({
       getters: true
     })
@@ -121,9 +121,9 @@ const deleteCategory = async (req, res, next) => {
   try {
     category = await Category.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -131,9 +131,9 @@ const deleteCategory = async (req, res, next) => {
   try {
     await category.remove()
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -145,7 +145,7 @@ const deleteCategory = async (req, res, next) => {
   })
 
   res.json({
-    message: "Product category deleted successfully!",
+    message: 'Product category deleted successfully!',
     category: category.toObject({
       getters: true
     })
@@ -162,9 +162,9 @@ const getCategory = async (req, res, next) => {
   try {
     category = await Category.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -176,7 +176,7 @@ const getCategory = async (req, res, next) => {
   })
 
   res.json({
-    message: "Product category retrieved successfully!",
+    message: 'Product category retrieved successfully!',
     category: category.toObject({
       getters: true
     })
@@ -191,25 +191,12 @@ const getCategoryList = async (req, res, next) => {
   try {
     categoryList = await Category.find()
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
-
-  res.status(200).json({
-    category: categoryList.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: "Product category list retrieved successfully!",
-    category: categoryList.toObject({
-      getters: true
-    })
-  })
 
   res.send(categoryList)
 }

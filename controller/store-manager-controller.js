@@ -1,5 +1,17 @@
-const httpError = require("../models/http-errors")
-const User = require("../models/users-model")
+const nodemailer = require('nodemailer')
+
+const HttpError = require('../models/http-errors')
+const User = require('../models/users-model')
+
+require('dotenv').config()
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'tharindarajapakshe@gmail.com',
+    password: process.env.PASSWORD
+  }
+})
 
 const addStoreManager = async (req, res, next) => {
   let existingUser
@@ -19,17 +31,17 @@ const addStoreManager = async (req, res, next) => {
       email: email
     })
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
 
   if (existingUser) {
-    const error = new httpError("A user with the same email already exists.", 409)
+    const error = new HttpError('A user with the same email already exists.', 409)
     res.json({
-      message: "A user with the same email already exists."
+      message: 'A user with the same email already exists.'
     })
     return next(error)
   }
@@ -48,12 +60,12 @@ const addStoreManager = async (req, res, next) => {
   try {
     await newStoreManager.save()
     res.json({
-      message: "New store manager added!"
+      message: 'New store manager added!'
     })
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -65,11 +77,13 @@ const addStoreManager = async (req, res, next) => {
   })
 
   res.json({
-    message: "New store manager added successfully!",
+    message: 'New store manager added successfully!',
     category: newStoreManager.toObject({
       getters: true
     })
   })
+
+  sendEmail(email, password, passwordResetQuestion, answer);
 }
 
 const updateStoreManager = async (req, res, next) => {
@@ -86,9 +100,9 @@ const updateStoreManager = async (req, res, next) => {
   try {
     storeManager = await User.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -101,9 +115,9 @@ const updateStoreManager = async (req, res, next) => {
   try {
     await storeManager.save()
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -115,7 +129,7 @@ const updateStoreManager = async (req, res, next) => {
   })
 
   res.json({
-    message: "Stock manager updated successfully!",
+    message: 'Stock manager updated successfully!',
     user: storeManager.toObject({
       getters: true
     })
@@ -132,9 +146,9 @@ const deleteStoreManager = async (req, res, next) => {
   try {
     storeManager = await User.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -142,9 +156,9 @@ const deleteStoreManager = async (req, res, next) => {
   try {
     await storeManager.remove()
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -156,7 +170,7 @@ const deleteStoreManager = async (req, res, next) => {
   })
 
   res.json({
-    message: "Stock manager deleted successfully!",
+    message: 'Stock manager deleted successfully!',
     category: storeManager.toObject({
       getters: true
     })
@@ -173,9 +187,9 @@ const getStoreManager = async (req, res, next) => {
   try {
     storeManager = await User.findById(id)
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
@@ -187,7 +201,7 @@ const getStoreManager = async (req, res, next) => {
   })
 
   res.json({
-    message: "Store manager retrieved successfully!",
+    message: 'Store manager retrieved successfully!',
     category: storeManager.toObject({
       getters: true
     })
@@ -204,44 +218,38 @@ const getStoreManagerList = async (req, res, next) => {
       type: 'Store Manager'
     })
   } catch (err) {
-    const error = new httpError("Unexpected internal server error occurred, please try again later.", 500)
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
-      message: "Unexpected internal server error occurred, please try again later."
+      message: 'Unexpected internal server error occurred, please try again later.'
     })
     return next(error)
   }
 
-  res.status(200).json({
-    category: storeManagerList.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: "Store manager list retrieved successfully!",
-    category: storeManagerList.toObject({
-      getters: true
-    })
-  })
-
   res.send(storeManagerList)
 }
 
-// const sendEmail = () => {
-//   let info = {
-//     from: 'it18149654@my.sliit.lk',
-//     to: '',
-//     subject: 'Added as a Store Manager',
-//     text: ''
-//   }
-//   transporter.sendMail(info, (err, data) => {
-//     if (err) {
-//       console.log(err)
-//     } else {
-//       console.log("sent")
-//     }
-//   })
-// }
+function sendEmail(email, password, passwordResetQuestion, answer) {
+  let info = {
+    from: 'tharindarajapakshe@gmail.com',
+    to: email,
+    subject: 'Added as a Store Manager',
+    text: 'You have been assigned as a Store Manager. ' +
+      'Please refer the information below to log in or change the password.' +
+      'Email: ' + email +
+      'Password: ' + password +
+      'Password reset question: ' + passwordResetQuestion +
+      'Answer for password reset question: ' + answer +
+      'Thank you!'
+  }
+
+  transporter.sendMail(info, (err, data) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('sent')
+    }
+  })
+}
 
 exports.addStoreManager = addStoreManager
 exports.updateStoreManager = updateStoreManager

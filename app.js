@@ -1,39 +1,46 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const express = require('express')
+const cors = require('cors')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
-const httpError = require("./models/http-errors");
-const userRoutes = require("./routes/user-routes");
-const adminRoutes = require("./routes/admin-routes");
+const HttpError = require('./models/http-errors')
+const UserRoutes = require('./routes/user-routes')
+const AdminRoutes = require('./routes/admin-routes')
 
-const app = express();
+require('dotenv').config()
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+const app = express()
 
-app.use(cors());
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 
-app.use("/users", userRoutes);
-app.use("/admin", adminRoutes);
+app.use(bodyParser.json())
+
+app.use(cors())
+
+app.use('/users', UserRoutes)
+app.use('/admin', AdminRoutes)
 
 app.use((req, res, next) => {
-  throw new httpError("Could not find this route.", 404);
-});
+  throw new HttpError('Could not find this route.', 404)
+})
 
-const uri = 'mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority';
+const uri = process.env.ATLAS_URI
+const port = process.env.PORT
 
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
-};
+}
 
 mongoose
   .connect(uri, options)
   .then(() => {
-    app.listen(5000);
+    app.listen(port)
+    console.log(`Server is running on port: ${port}`)
   })
   .catch(error => {
-    console.log(error);
-  });
+    console.log(error)
+  })
