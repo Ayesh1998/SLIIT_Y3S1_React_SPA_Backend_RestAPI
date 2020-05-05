@@ -67,7 +67,10 @@ const updateCategory = async (req, res, next) => {
   let category
 
   const {
-    id,
+    id
+  } = req.params
+
+  const {
     categoryTitle,
     categoryDescription,
     categoryImage
@@ -116,7 +119,7 @@ const deleteCategory = async (req, res, next) => {
 
   const {
     id
-  } = req.body
+  } = req.params
 
   try {
     category = await Category.findById(id)
@@ -157,7 +160,7 @@ const getCategory = async (req, res, next) => {
 
   const {
     id
-  } = req.body
+  } = req.params
 
   try {
     category = await Category.findById(id)

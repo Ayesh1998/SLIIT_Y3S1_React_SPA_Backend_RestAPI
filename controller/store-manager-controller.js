@@ -71,14 +71,14 @@ const addStoreManager = async (req, res, next) => {
   }
 
   res.status(201).json({
-    category: newStoreManager.toObject({
+    newStoreManager: newStoreManager.toObject({
       getters: true
     })
   })
 
   res.json({
     message: 'New store manager added successfully!',
-    category: newStoreManager.toObject({
+    newStoreManager: newStoreManager.toObject({
       getters: true
     })
   })
@@ -90,7 +90,10 @@ const updateStoreManager = async (req, res, next) => {
   let storeManager
 
   const {
-    id,
+    id
+  } = req.params
+
+  const {
     firstName,
     lastName,
     teleNo,
@@ -141,7 +144,7 @@ const deleteStoreManager = async (req, res, next) => {
 
   const {
     id
-  } = req.body
+  } = req.params
 
   try {
     storeManager = await User.findById(id)
@@ -164,14 +167,14 @@ const deleteStoreManager = async (req, res, next) => {
   }
 
   res.status(200).json({
-    category: storeManager.toObject({
+    storeManager: storeManager.toObject({
       getters: true
     })
   })
 
   res.json({
     message: 'Stock manager deleted successfully!',
-    category: storeManager.toObject({
+    storeManager: storeManager.toObject({
       getters: true
     })
   })
@@ -182,7 +185,7 @@ const getStoreManager = async (req, res, next) => {
 
   const {
     id
-  } = req.body
+  } = req.params
 
   try {
     storeManager = await User.findById(id)
@@ -195,14 +198,14 @@ const getStoreManager = async (req, res, next) => {
   }
 
   res.status(200).json({
-    category: storeManager.toObject({
+    storeManager: storeManager.toObject({
       getters: true
     })
   })
 
   res.json({
     message: 'Store manager retrieved successfully!',
-    category: storeManager.toObject({
+    storeManager: storeManager.toObject({
       getters: true
     })
   })
