@@ -5,14 +5,6 @@ const User = require('../models/users-model')
 
 require('dotenv').config()
 
-let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'tharindarajapakshe@gmail.com',
-    password: process.env.PASSWORD
-  }
-})
-
 const addStoreManager = async (req, res, next) => {
   let existingUser
 
@@ -231,9 +223,31 @@ const getStoreManagerList = async (req, res, next) => {
   res.send(storeManagerList)
 }
 
+function getAdminEmail() {
+  let admin
+
+  try {
+    admin = User.find({
+      type: 'Administrator'
+    })
+  } catch (err) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  return admin.email
+}
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: getAdminEmail(),
+    password: process.env.PASSWORD
+  }
+})
+
 function sendEmail(email, password, passwordResetQuestion, answer) {
   let info = {
-    from: 'tharindarajapakshe@gmail.com',
+    from: getAdminEmail(),
     to: email,
     subject: 'Added as a Store Manager',
     text: 'You have been assigned as a Store Manager. ' +
@@ -249,7 +263,7 @@ function sendEmail(email, password, passwordResetQuestion, answer) {
     if (err) {
       console.log(err)
     } else {
-      console.log('sent')
+      console.log('Email sent successfully.')
     }
   })
 }
