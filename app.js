@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const HttpError = require('./models/http-errors')
 const UserRoutes = require('./routes/user-routes')
 const AdminRoutes = require('./routes/admin-routes')
+const PaymentRoutes = require('./routes/payment-routes')
 
 require('dotenv').config()
 
@@ -21,13 +22,15 @@ app.use(cors())
 
 app.use('/users', UserRoutes)
 app.use('/admin', AdminRoutes)
+app.use('/payments', PaymentRoutes)
 
 app.use((req, res, next) => {
   throw new HttpError('Could not find this route.', 404)
 })
 
 const uri = process.env.ATLAS_URI
-const port = process.env.PORT
+//const port = process.env.PORT
+const port = process.env.PORT || 5000
 
 const options = {
   useNewUrlParser: true,
@@ -44,3 +47,13 @@ mongoose
   .catch(error => {
     console.log(error)
   })
+
+ /* mongoose
+  .connect("mongodb+srv://Harshani:harshani1997@harshani-mongodb-cluster-lhbhf.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority", options)
+  .then(() => {
+    app.listen(port)
+    console.log(`Server is running on port: ${port}`)
+  })
+  .catch(error => {
+    console.log(error)
+  })*/
