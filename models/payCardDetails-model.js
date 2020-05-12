@@ -16,6 +16,9 @@ const payCardSchema = new Schema({
   cardNumber: {
     type: String,
     required: true
+  }, isSave: {
+    type: Boolean,
+    required: true
   }
 }, {
   timestamps: true,

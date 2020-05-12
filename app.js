@@ -38,7 +38,7 @@ const options = {
   useCreateIndex: true
 }
 
-mongoose
+/* mongoose
   .connect(uri, options)
   .then(() => {
     app.listen(port)
@@ -46,9 +46,9 @@ mongoose
   })
   .catch(error => {
     console.log(error)
-  })
+  })*/
 
- /* mongoose
+ mongoose
   .connect("mongodb+srv://Harshani:harshani1997@harshani-mongodb-cluster-lhbhf.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority", options)
   .then(() => {
     app.listen(port)
@@ -56,4 +56,4 @@ mongoose
   })
   .catch(error => {
     console.log(error)
-  })*/
+  })
