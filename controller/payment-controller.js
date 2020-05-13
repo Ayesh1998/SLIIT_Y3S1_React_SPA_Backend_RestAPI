@@ -109,7 +109,7 @@ const addPayCard = async (req, res, next) => {
   });
 
   try {
-    console.log(createdPayCardr);
+    console.log(createdPayCard);
     await createdPayCard.save();
     res.json({message: "Saved data to DB", save: 1});
   } catch (err) {
