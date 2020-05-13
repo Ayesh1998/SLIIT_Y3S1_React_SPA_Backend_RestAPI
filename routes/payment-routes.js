@@ -15,5 +15,4 @@ router.get('/pay-card', PaymentsController.getPayCards);
 router.get('/pay-card/:id', PaymentsController.getPayCard);
 router.delete('/pay-card/:id', PaymentsController.deletePayCard);
 
-
 module.exports = router;

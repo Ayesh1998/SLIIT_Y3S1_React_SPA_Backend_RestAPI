@@ -4,11 +4,11 @@ const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema
 
 const payCardSchema = new Schema({
- email: {
-        type: String,
-        required: true,
-        unique: true
-      },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
   cardType: {
     type: String,
     required: true
