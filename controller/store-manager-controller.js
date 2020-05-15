@@ -172,42 +172,25 @@ const deleteStoreManager = async (req, res, next) => {
   })
 }
 
-// const getStoreManager = async (req, res, next) => {
-//   let storeManager
-//
-//   const {
-//     id
-//   } = req.params
-//
-//   try {
-//     storeManager = await User.findById(id)
-//   } catch (err) {
-//     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-//     res.json({
-//       message: 'Unexpected internal server error occurred, please try again later.'
-//     })
-//     return next(error)
-//   }
-//
-//   res.status(200).json({
-//     storeManager: storeManager.toObject({
-//       getters: true
-//     })
-//   })
-//
-//   res.json({
-//     message: 'Store manager retrieved successfully!',
-//     storeManager: storeManager.toObject({
-//       getters: true
-//     })
-//   })
-// }
-
 const getStoreManager = async (req, res, next) => {
-  User.findById(req.params.id)
-    .then(storeManager => res.json(storeManager))
-    .catch(err => res.status(400).json('Error: ' + err));
-};
+  let storeManager
+
+  const {
+    id
+  } = req.params
+
+  try {
+    storeManager = await User.findById(id)
+  } catch (err) {
+    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
+    res.json({
+      message: 'Unexpected internal server error occurred, please try again later.'
+    })
+    return next(error)
+  }
+
+  res.status(200).json(storeManager)
+}
 
 const getStoreManagerList = async (req, res, next) => {
   let storeManagerList

@@ -172,20 +172,7 @@ const getCategory = async (req, res, next) => {
     return next(error)
   }
 
-  res.status(200).json({
-    category: category.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: 'Product category retrieved successfully!',
-    category: category.toObject({
-      getters: true
-    })
-  })
-
-  res.send(category)
+  res.status(200).json(category)
 }
 
 const getCategoryList = async (req, res, next) => {
