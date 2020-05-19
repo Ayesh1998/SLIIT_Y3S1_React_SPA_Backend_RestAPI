@@ -8,7 +8,7 @@ const categorySchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
+    trim: true
   },
   categoryDescription: {
     type: String,
@@ -18,7 +18,7 @@ const categorySchema = new Schema({
   categoryImage: {
     type: String,
     required: true
-  },
+  }
 }, {
   timestamps: true,
   collection: 'Categories'
