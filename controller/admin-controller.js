@@ -1,18 +1,17 @@
 const HttpError = require('../models/http-errors')
-const Category = require('../models/category-model')
+const User = require('../models/users-model')
 
-const addCategory = async (req, res, next) => {
-  let existingCategory
+const addAdmin = async (req, res, next) => {
+  let existingUser
 
   const {
-    categoryTitle,
-    categoryDescription,
-    categoryImage
+    email,
+    password
   } = req.body
 
   try {
-    existingCategory = await Category.findOne({
-      categoryTitle: categoryTitle
+    existingUser = await User.findOne({
+      email: email
     })
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
@@ -22,24 +21,24 @@ const addCategory = async (req, res, next) => {
     return next(error)
   }
 
-  if (existingCategory) {
-    const error = new HttpError('A category with the same title already exists.', 409)
+  if (existingUser) {
+    const error = new HttpError('A user with the same email already exists.', 409)
     res.json({
-      message: 'A category with the same title already exists.'
+      message: 'A user with the same email already exists.'
     })
     return next(error)
   }
 
-  const newCategory = new Category({
-    categoryTitle,
-    categoryDescription,
-    categoryImage
+  const newAdmin = new User({
+    email,
+    password,
+    type: 'Administrator'
   })
 
   try {
-    await newCategory.save()
+    await newAdmin.save()
     res.json({
-      message: 'New product category added!'
+      message: 'New administrator added!'
     })
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
@@ -50,34 +49,33 @@ const addCategory = async (req, res, next) => {
   }
 
   res.status(201).json({
-    category: newCategory.toObject({
+    newAdmin: newAdmin.toObject({
       getters: true
     })
   })
 
   res.json({
-    message: 'New product category added successfully!',
-    category: newCategory.toObject({
+    message: 'New administrator added successfully!',
+    newAdmin: newAdmin.toObject({
       getters: true
     })
   })
 }
 
-const updateCategory = async (req, res, next) => {
-  let category
+const updateAdmin = async (req, res, next) => {
+  let admin
 
   const {
     id
   } = req.params
 
   const {
-    categoryTitle,
-    categoryDescription,
-    categoryImage
+    email,
+    password
   } = req.body
 
   try {
-    category = await Category.findById(id)
+    admin = await User.findById(id)
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -86,12 +84,11 @@ const updateCategory = async (req, res, next) => {
     return next(error)
   }
 
-  category.categoryTitle = categoryTitle
-  category.categoryDescription = categoryDescription
-  category.categoryImage = categoryImage
+  admin.email = email
+  admin.password = password
 
   try {
-    await category.save()
+    await admin.save()
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -101,28 +98,28 @@ const updateCategory = async (req, res, next) => {
   }
 
   res.status(200).json({
-    category: category.toObject({
+    user: admin.toObject({
       getters: true
     })
   })
 
   res.json({
-    message: 'Product category updated successfully!',
-    category: category.toObject({
+    message: 'Administrator updated successfully!',
+    user: admin.toObject({
       getters: true
     })
   })
 }
 
-const deleteCategory = async (req, res, next) => {
-  let category
+const deleteAdmin = async (req, res, next) => {
+  let admin
 
   const {
     id
   } = req.params
 
   try {
-    category = await Category.findById(id)
+    admin = await User.findById(id)
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -132,7 +129,7 @@ const deleteCategory = async (req, res, next) => {
   }
 
   try {
-    await category.remove()
+    await admin.remove()
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -142,28 +139,28 @@ const deleteCategory = async (req, res, next) => {
   }
 
   res.status(200).json({
-    category: category.toObject({
+    admin: admin.toObject({
       getters: true
     })
   })
 
   res.json({
-    message: 'Product category deleted successfully!',
-    category: category.toObject({
+    message: 'Administrator deleted successfully!',
+    admin: admin.toObject({
       getters: true
     })
   })
 }
 
-const getCategory = async (req, res, next) => {
-  let category
+const getAdmin = async (req, res, next) => {
+  let admin
 
   const {
     id
   } = req.params
 
   try {
-    category = await Category.findById(id)
+    admin = await User.findById(id)
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -172,14 +169,16 @@ const getCategory = async (req, res, next) => {
     return next(error)
   }
 
-  res.status(200).json(category)
+  res.status(200).json(admin)
 }
 
-const getCategoryList = async (req, res, next) => {
-  let categoryList
+const getAdminList = async (req, res, next) => {
+  let adminList
 
   try {
-    categoryList = await Category.find()
+    adminList = await User.find({
+      type: 'Administrator'
+    })
   } catch (err) {
     const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
     res.json({
@@ -188,11 +187,11 @@ const getCategoryList = async (req, res, next) => {
     return next(error)
   }
 
-  res.send(categoryList)
+  res.send(adminList)
 }
 
-exports.addCategory = addCategory
-exports.updateCategory = updateCategory
-exports.deleteCategory = deleteCategory
-exports.getCategory = getCategory
-exports.getCategoryList = getCategoryList
+exports.addAdmin = addAdmin
+exports.updateAdmin = updateAdmin
+exports.deleteAdmin = deleteAdmin
+exports.getAdmin = getAdmin
+exports.getAdminList = getAdminList

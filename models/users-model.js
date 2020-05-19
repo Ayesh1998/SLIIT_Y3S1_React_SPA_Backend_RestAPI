@@ -26,12 +26,10 @@ const userSchema = new Schema({
     required: true
   },
   passwordResetQuestion: {
-    type: String,
-    required: true
+    type: String
   },
   answer: {
-    type: String,
-    required: true
+    type: String
   },
   type: {
     type: String,

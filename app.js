@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json())
-
 app.use(cors())
 
 app.use('/users', UserRoutes)
@@ -37,17 +36,7 @@ const options = {
   useCreateIndex: true
 }
 
-/* mongoose
-  .connect(uri, options)
-  .then(() => {
-    app.listen(port)
-    console.log(`Server is running on port: ${port}`)
-  })
-  .catch(error => {
-    console.log(error)
-  }) */
-  
-  mongoose
+mongoose
   .connect(uri, options)
   .then(() => {
     app.listen(port)
@@ -56,4 +45,3 @@ const options = {
   .catch(error => {
     console.log(error)
   })
-  
