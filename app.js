@@ -37,7 +37,17 @@ const options = {
   useCreateIndex: true
 }
 
-mongoose
+/* mongoose
+  .connect(uri, options)
+  .then(() => {
+    app.listen(port)
+    console.log(`Server is running on port: ${port}`)
+  })
+  .catch(error => {
+    console.log(error)
+  }) */
+  
+  mongoose
   .connect(uri, options)
   .then(() => {
     app.listen(port)
@@ -46,3 +56,4 @@ mongoose
   .catch(error => {
     console.log(error)
   })
+  
