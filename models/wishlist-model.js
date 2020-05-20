@@ -20,6 +20,6 @@ const WishListSchema = new Schema(
   }
 );
 
-userSchema.plugin(uniqueValidator);
+WishListSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Wishlist", WishListSchema);
