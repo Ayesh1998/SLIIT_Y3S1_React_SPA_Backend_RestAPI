@@ -28,7 +28,7 @@ const addToWishList = async (req, res, next) => {
 const getWishList = async (req, res, next) => {
   let userID = req.params.userID;
   WishList.find({ userID })
-    .then((wishList) => res.json(wishList))
+    .then((wishList) => res.json({wishList:wishList, massege:'got results'}))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
