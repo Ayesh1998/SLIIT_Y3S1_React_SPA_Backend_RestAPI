@@ -25,6 +25,19 @@ const addToWishList = async (req, res, next) => {
     .json({ wishListItem: WishListItem.toObject({ getters: true }) });
 };
 
+const deleteWishList = async (req, res, next) => {
+  let userID = req.params.userID;
+  let productID = req.params.productID;
+
+  WishList.deleteOne({ userID, productID })
+    .then(() => res.json({ message: "Deleted data from DB", delete: 1 }))
+    .catch((err) =>
+      res
+        .status(400)
+        .json({ message: "Deleted failed, please try again.", delete: 0 })
+    );
+};
+
 exports.addToWishList = addToWishList;
 exports.deleteWishList = deleteWishList;
 exports.getWishList = getWishList;
