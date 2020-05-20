@@ -25,6 +25,13 @@ const addToWishList = async (req, res, next) => {
     .json({ wishListItem: WishListItem.toObject({ getters: true }) });
 };
 
+const getWishList = async (req, res, next) => {
+  let userID = req.params.userID;
+  WishList.find({ userID })
+    .then((wishList) => res.json(wishList))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
 const deleteWishList = async (req, res, next) => {
   let userID = req.params.userID;
   let productID = req.params.productID;
