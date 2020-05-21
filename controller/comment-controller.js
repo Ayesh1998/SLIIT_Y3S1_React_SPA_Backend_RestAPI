@@ -1,7 +1,6 @@
 const uuid = require("uuid/v4");
 const HttpError = require("../models/http-errors");
-const ProductComments = require("../models/p roductComments-model");
-
+const ProductComments = require("../models/productComments-model");
 
 
 const addProductComment = async (req, res, next) => {
@@ -42,11 +41,11 @@ const updateProductComment = async (req, res, next) => {
       productComment.user_firstName = req.body.user_firstName;
       productComment.user_lastName = req.body.user_lastName;
       productComment.comment = req.body.comment;
-      
+
 
       //exercise.duration = Number(req.body.duration);
       //exercise.date = Date.parse(req.body.date);
-      
+
 
       productComment.save()
         .then(() => res.json({message: "Updated data to DB", save: 1}))
@@ -74,8 +73,6 @@ const deleteProductComment = async (req, res, next) => {
     .catch(err => res.status(400).json({message: "Deleted failed, please try again.", delete: 0}));
 
 };
-
-
 
 
 exports.addProductComment = addProductComment;
