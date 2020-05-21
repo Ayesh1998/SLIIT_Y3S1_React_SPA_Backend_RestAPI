@@ -1,4 +1,4 @@
-/*const express = require('express');
+const express = require('express');
 const router = express.Router();
 
 const CommentsController = require('../controller/comment-controller');
@@ -10,4 +10,4 @@ router.get('/product-comment/:id', CommentsController.getProductComment);
 router.delete('/product-comment/:id', CommentsController.deleteProductComment);
 
 
-module.exports = router;*/
+module.exports = router;
