@@ -156,7 +156,7 @@ const getAdminEmail = async () => {
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL,
+    user: 'tharindarajapakshe@gmail.com',
     pass: process.env.PASSWORD
   }
 })
@@ -169,12 +169,81 @@ const sendEmail = async (email, password) => {
     to: email,
     subject: 'Added as a Store Manager',
     text:
-      'You have been assigned as a Store Manager. ' +
-      'Email: ' +
-      email +
-      'Password: ' +
-      password +
-      'Thank you!'
+      `Congratulations!
+      You have been assigned as a Store Manager.
+      Now you can manage product related operations as a store manager in the Online Fashion Store.
+      Please find your login credentials below.
+      LOGIN CREDENTIALS
+      Email: ${email}
+      Password: ${password}
+      Thank you!
+      This is an auto-generated email.
+      If this has been sent by mistake, please delete this without sharing this.
+      All rights reserved.`,
+    html:
+      '<div style="margin: 0; padding: 0; background-color: #f2f2f2; font-family: arial, serif;">' + '\n' +
+      '<table style="margin: 0 auto; background: white; max-width: 500px; padding-bottom: 0; border-top: 5px solid #588dde; border-bottom: 5px solid #588dde; width: 100%;">' + '\n' +
+      '<tr style="background: rgb(237, 243, 255); padding-left: 20px; padding-right: 20px;">' + '\n' +
+      '<td>' + '\n' +
+      '<table align="left" style="width: 100%;">' + '\n' +
+      '<tr>' + '\n' +
+      '<td style="padding: 10px;">' + '\n' +
+      '<h1 style="text-align: center; color: #1a1a72;">Congratulations!</h1>' + '\n' +
+      '<h2 style="margin-top:25px; margin-bottom: 0; color: #4db0c4; font-weight: 400; font-size: medium;">You have been assigned as a Store Manager.</h2>' + '\n' +
+      '<h2 style="margin-top:20px; margin-bottom: 0; color: #4db0c4; font-weight: 400; font-size: medium;">Now you can manage product related operations as a store manager in the Online Fashion Store.</h2>' + '\n' +
+      '<h2 style="margin-top:20px; margin-bottom: 10px; color: #4db0c4; font-weight: 400; font-size: medium;">Please find your login credentials below.</h2>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '<tr style="background: rgb(237, 243, 255); padding-left: 20px; padding-right: 20px;">' + '\n' +
+      '<td>' + '\n' +
+      '<table align="left" style="width: 100%;">' + '\n' +
+      '<tr>' + '\n' +
+      '<td style="padding: 10px;">' + '\n' +
+      '<h4 style="margin-top:20px; margin-bottom: 8px; color: #145a7a; font-weight: 400; text-align: center; font-size: 16px;"><b>LOGIN CREDENTIALS</b></h4>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '<tr style="background: rgb(237, 243, 255); padding-left: 20px; padding-right: 20px;">' + '\n' +
+      '<td>' + '\n' +
+      '<table align="left" style="width: 50%;">' + '\n' +
+      '<tr>' + '\n' +
+      '<td align="left" valign="top" style="padding: 10px;">' + '\n' +
+      '<h6 style="font-size: 14px; margin-top: 0; margin-bottom: 0; color: #29353c; font-weight: 400;">E-mail</h6>' + '\n' +
+      '<h6 style="font-size: 14px; margin-top: 20px; margin-bottom: 0; color: #29353c; font-weight: 400;">Password</h6>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '<table align="left" style="width: 50%;">' + '\n' +
+      '<tr>' + '\n' +
+      '<td align="right" valign="top" style="padding: 10px;">' + '\n' +
+      '<h6 style="font-size: 14px; margin-top: 0; margin-bottom: 0; color: #588dde; font-weight: 400;">' + email + '</h6>' + '\n' +
+      '<h6 style="font-size: 14px; margin-top: 20px; margin-bottom: 0; color: #588dde; font-weight: 400;">' + password + '</h6>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '<tr style="background: rgb(237, 243, 255); padding-left: 20px; padding-right: 20px;">' + '\n' +
+      '<td>' + '\n' +
+      '<table align="center" style="width: 100%;">' + '\n' +
+      '<tr>' + '\n' +
+      '<td align="center" style="padding: 10px;">' + '\n' +
+      '<h4 style="margin-top:3px; margin-bottom: 10px; color: #214379; font-weight: 400; font-size: 16px;">Thank You!</h4>' + '\n' +
+      '<h4 style="margin-top:3px; margin-bottom: 0; color: #588dde; font-weight: 400; font-size: 10px;">This is an auto-generated email.</h4>' + '\n' +
+      '<h4 style="margin-top:3px; margin-bottom: 0; color: #588dde; font-weight: 400; font-size: 10px;">If this has been sent by mistake, please delete this without sharing this.</h4>' + '\n' +
+      '<h4 style="margin-top:5px; margin-bottom: 0; color: #588dde; font-weight: 400; font-size: 10px;">All rights reserved.</h4>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</table>' + '\n' +
+      '</div>'
   }
 
   transporter.sendMail(info, (error, data) => {
