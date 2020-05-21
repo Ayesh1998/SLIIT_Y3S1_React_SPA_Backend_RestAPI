@@ -67,13 +67,13 @@ const getProductComment = async (req, res, next) => {
     .catch(err => res.status(400).json('Error: ' + err));
 };
 
-/*const deleteProductComment = async (req, res, next) => {
+const deleteProductComment = async (req, res, next) => {
 
   ProductComments.findByIdAndDelete(req.params.id)
     .then(() => res.json({message: "Deleted data from DB", delete: 1}))
     .catch(err => res.status(400).json({message: "Deleted failed, please try again.", delete: 0}));
 
-};*/
+};
 
 
 
@@ -82,6 +82,6 @@ exports.addProductComment = addProductComment;
 exports.updateProductComment = updateProductComment;
 exports.getProductComments = getProductComments;
 exports.getProductComment = getProductComment;
-//exports.deleteProductComment = deleteProductComment;
+exports.deleteProductComment = deleteProductComment;
 
 
