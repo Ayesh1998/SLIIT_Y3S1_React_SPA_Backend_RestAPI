@@ -7,6 +7,7 @@ const HttpError = require("./models/http-errors");
 const UserRoutes = require("./routes/user-routes");
 const AdminRoutes = require("./routes/admin-routes");
 const PaymentRoutes = require("./routes/payment-routes");
+//const CommentRoutes = require("./routes/comment-routes");
 
 require("dotenv").config();
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/users", UserRoutes);
 app.use("/admin", AdminRoutes);
 app.use("/payments", PaymentRoutes);
+//app.use("/comments", CommentRoutes);
 
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
