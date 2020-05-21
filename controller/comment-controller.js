@@ -55,13 +55,13 @@ const updateProductComment = async (req, res, next) => {
     .catch(err => res.status(400).json('Error: ' + err));
 };
 
-/*const getProductComments = async (req, res, next) => {
+const getProductComments = async (req, res, next) => {
   ProductComments.find()
     .then(productComments => res.json(productComments))
     .catch(err => res.status(400).json('Error: ' + err));
 };
 
-const getProductComment = async (req, res, next) => {
+/*const getProductComment = async (req, res, next) => {
   ProductComments.findById(req.params.id)
     .then(productComment => res.json(productComment))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -80,7 +80,7 @@ const deleteProductComment = async (req, res, next) => {
 
 exports.addProductComment = addProductComment;
 exports.updateProductComment = updateProductComment;
-//exports.getProductComments = getProductComments;
+exports.getProductComments = getProductComments;
 //exports.getProductComment = getProductComment;
 //exports.deleteProductComment = deleteProductComment;
 
