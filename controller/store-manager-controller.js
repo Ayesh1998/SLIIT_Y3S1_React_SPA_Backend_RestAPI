@@ -39,14 +39,15 @@ const addStoreManager = async (req, res, next) => {
 
   try {
     await newStoreManager.save()
-    res.status(201).send({
-      message: 'New store manager added successfully!'
-    })
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
   await sendEmail(email, generatedPassword)
+
+  res.status(201).send({
+    message: 'New store manager added successfully!'
+  })
 }
 
 const updateStoreManager = async (req, res, next) => {
@@ -94,11 +95,6 @@ const deleteStoreManager = async (req, res, next) => {
 
   try {
     storeManager = await User.findById(id)
-  } catch (error) {
-    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
-  }
-
-  try {
     await storeManager.remove()
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
