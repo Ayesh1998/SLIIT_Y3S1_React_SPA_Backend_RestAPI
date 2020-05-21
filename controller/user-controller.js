@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({email: email});
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -57,35 +57,35 @@ const signup = async (req, res, next) => {
     // res.json({message: "Signed Up", login: 1});
   } catch (err) {
     const error = new HttpError("Signing up failed, please try again.", 500);
-    res.json({ message: "Signing up failed, please try again.", login: 0 });
+    res.json({message: "Signing up failed, please try again.", login: 0});
     return next(error);
   }
 
   res.status(201).json({
-    user: createdUser.toObject({ getters: true }),
+    user: createdUser.toObject({getters: true}),
     login: 1,
     message: "Signed Up",
   });
 };
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const {email, password} = req.body;
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({email: email});
   } catch (err) {
     const error = new HttpError(
       "Login up failed, please try again later.",
       500
     );
-    res.json({ message: "Login up failed, please try again later.", login: 0 });
+    res.json({message: "Login up failed, please try again later.", login: 0});
     return next(error);
   }
 
   if (!existingUser || existingUser.password !== password) {
     const error = new HttpError("Invalid username or password.", 401);
-    res.json({ message: "Invalid username or password", login: 0 });
+    res.json({message: "Invalid username or password", login: 0});
     return next(error);
   }
 
@@ -98,11 +98,11 @@ const login = async (req, res, next) => {
 };
 
 const updatePasswordRequest = async (req, res, next) => {
-  const { email } = req.body;
+  const {email} = req.body;
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({email: email});
   } catch (err) {
     const error = new HttpError(
       "Email check up failed, please try again later.",
@@ -117,19 +117,19 @@ const updatePasswordRequest = async (req, res, next) => {
 
   if (!existingUser) {
     const error = new HttpError("Invalid email", 401);
-    res.json({ message: "Invalid email", login: 0 });
+    res.json({message: "Invalid email", login: 0});
     return next(error);
   }
 
   res.json({
     message: "Logged in!",
     login: 1,
-    user: existingUser.toObject({ getters: true }),
+    user: existingUser.toObject({getters: true}),
   });
 };
 
 const updatePassword = async (req, res, next) => {
-  const { email, id, password } = req.body;
+  const {email, id, password} = req.body;
   let user;
 
   try {
@@ -158,12 +158,12 @@ const updatePassword = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ user: user.toObject({ getters: true }) });
+  res.status(200).json({user: user.toObject({getters: true})});
 
   res.json({
     message: "Logged in!",
     login: 1,
-    user: user.toObject({ getters: true }),
+    user: user.toObject({getters: true}),
   });
 };
 
