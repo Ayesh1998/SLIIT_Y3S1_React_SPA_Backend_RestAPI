@@ -1,4 +1,4 @@
-/*const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const Schema = mongoose.Schema
@@ -31,4 +31,4 @@ const productCommentSchema = new Schema({
 
 payUserSchema.plugin(uniqueValidator)
 
-module.exports = mongoose.model('ProductComments', productCommentSchema)*/
+module.exports = mongoose.model('ProductComments', productCommentSchema)
