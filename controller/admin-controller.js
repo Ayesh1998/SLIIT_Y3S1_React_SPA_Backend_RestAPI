@@ -28,12 +28,13 @@ const addAdmin = async (req, res, next) => {
 
   try {
     await newAdmin.save()
-    res.status(201).send({
-      message: 'New administrator added successfully!'
-    })
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
+
+  res.status(201).send({
+    message: 'New administrator added successfully!'
+  })
 }
 
 const updateAdmin = async (req, res, next) => {
@@ -77,11 +78,6 @@ const deleteAdmin = async (req, res, next) => {
 
   try {
     admin = await User.findById(id)
-  } catch (error) {
-    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
-  }
-
-  try {
     await admin.remove()
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
