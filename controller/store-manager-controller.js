@@ -46,7 +46,7 @@ const addStoreManager = async (req, res, next) => {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  sendEmail(email, generatedPassword)
+  await sendEmail(email, generatedPassword)
 }
 
 const updateStoreManager = async (req, res, next) => {
@@ -139,31 +139,33 @@ const getStoreManagerList = async (req, res, next) => {
   res.status(200).send(storeManagerList)
 }
 
-function getAdminEmail() {
+const getAdminEmail = async () => {
   let admin
 
   try {
-    admin = User.findOne({
+    admin = await User.findOne({
       type: 'Administrator'
     })
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  return admin.email
+  return await admin.email
 }
 
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: getAdminEmail(),
-    password: process.env.PASSWORD
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD
   }
 })
 
-function sendEmail(email, password) {
+const sendEmail = async (email, password) => {
+  let adminEmail = getAdminEmail()
+
   let info = {
-    from: getAdminEmail(),
+    from: adminEmail,
     to: email,
     subject: 'Added as a Store Manager',
     text:
@@ -176,10 +178,13 @@ function sendEmail(email, password) {
   }
 
   transporter.sendMail(info, (error, data) => {
-    if (error)
+    if (error) {
       console.log(error)
-    else
-      console.log('Email sent successfully.')
+      console.log('Email sending failed! Please try again.')
+    } else {
+      console.log(data)
+      console.log('An email is sent successfully to ' + email + '.')
+    }
   })
 }
 
