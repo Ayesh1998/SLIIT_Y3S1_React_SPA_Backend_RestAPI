@@ -13,7 +13,7 @@ const addToWishList = async (req, res, next) => {
   try {
     console.log(WishListItem);
     await WishListItem.save();
-    res.json({ message: "Added Succeefully", added: 1 });
+    // res.json({ message: "Added Succeefully", added: 1 });
   } catch (err) {
     const error = new HttpError("Adding failed, please try again.", 500);
     res.json({ message: "Adding failed, please try again.", added: 0 });
@@ -22,13 +22,19 @@ const addToWishList = async (req, res, next) => {
 
   res
     .status(201)
-    .json({ wishListItem: WishListItem.toObject({ getters: true }) });
+    .json({
+      wishListItem: WishListItem.toObject({ getters: true }),
+      message: "Added Succeefully",
+      added: 1,
+    });
 };
 
 const getWishList = async (req, res, next) => {
   let userID = req.params.userID;
   WishList.find({ userID })
-    .then((wishList) => res.json({wishList:wishList, massege:'got results'}))
+    .then((wishList) =>
+      res.json({ wishList: wishList, massege: "got results" })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
