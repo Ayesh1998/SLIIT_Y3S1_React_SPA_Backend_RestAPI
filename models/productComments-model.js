@@ -29,6 +29,6 @@ const productCommentSchema = new Schema({
   collection: 'ProductComments'
 })
 
-payUserSchema.plugin(uniqueValidator)
+productCommentSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('ProductComments', productCommentSchema)
