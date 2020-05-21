@@ -20,13 +20,11 @@ const addToWishList = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({
-      wishListItem: WishListItem.toObject({ getters: true }),
-      message: "Added Succeefully",
-      added: 1,
-    });
+  res.status(201).json({
+    wishListItem: WishListItem.toObject({ getters: true }),
+    message: "Added Succeefully",
+    added: 1,
+  });
 };
 
 const getWishList = async (req, res, next) => {
