@@ -12,66 +12,41 @@ const addStoreManager = async (req, res, next) => {
     firstName,
     lastName,
     email,
-    teleNo,
-    password
+    teleNo
   } = req.body
 
   try {
     existingUser = await User.findOne({
       email: email
     })
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  if (existingUser) {
-    const error = new HttpError('A user with the same email already exists.', 409)
-    res.json({
-      message: 'A user with the same email already exists.'
-    })
-    return next(error)
-  }
+  if (existingUser)
+    return next(new HttpError('A user with the same email already exists.', 409))
+
+  let generatedPassword = generatePassword()
 
   const newStoreManager = new User({
     firstName,
     lastName,
     teleNo,
     email,
-    password,
+    password: generatedPassword,
     type: 'Store Manager'
   })
 
   try {
     await newStoreManager.save()
-    res.json({
-      message: 'New store manager added!'
+    res.status(201).send({
+      message: 'New store manager added successfully!'
     })
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  res.status(201).json({
-    newStoreManager: newStoreManager.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: 'New store manager added successfully!',
-    newStoreManager: newStoreManager.toObject({
-      getters: true
-    })
-  })
-
-  sendEmail(email, password)
+  sendEmail(email, generatedPassword)
 }
 
 const updateStoreManager = async (req, res, next) => {
@@ -90,12 +65,8 @@ const updateStoreManager = async (req, res, next) => {
 
   try {
     storeManager = await User.findById(id)
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
   storeManager.firstName = firstName
@@ -105,25 +76,12 @@ const updateStoreManager = async (req, res, next) => {
 
   try {
     await storeManager.save()
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  res.status(200).json({
-    user: storeManager.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: 'Stock manager updated successfully!',
-    user: storeManager.toObject({
-      getters: true
-    })
+  res.status(200).send({
+    message: 'Stock manager updated successfully!'
   })
 }
 
@@ -136,35 +94,18 @@ const deleteStoreManager = async (req, res, next) => {
 
   try {
     storeManager = await User.findById(id)
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
   try {
     await storeManager.remove()
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  res.status(200).json({
-    storeManager: storeManager.toObject({
-      getters: true
-    })
-  })
-
-  res.json({
-    message: 'Stock manager deleted successfully!',
-    storeManager: storeManager.toObject({
-      getters: true
-    })
+  res.status(200).send({
+    message: 'Stock manager deleted successfully!'
   })
 }
 
@@ -177,15 +118,11 @@ const getStoreManager = async (req, res, next) => {
 
   try {
     storeManager = await User.findById(id)
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  res.status(200).json(storeManager)
+  res.status(200).send(storeManager)
 }
 
 const getStoreManagerList = async (req, res, next) => {
@@ -195,28 +132,22 @@ const getStoreManagerList = async (req, res, next) => {
     storeManagerList = await User.find({
       type: 'Store Manager'
     })
-  } catch (err) {
-    const error = new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    res.json({
-      message: 'Unexpected internal server error occurred, please try again later.'
-    })
-    return next(error)
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  res.send(storeManagerList)
+  res.status(200).send(storeManagerList)
 }
 
 function getAdminEmail() {
   let admin
 
   try {
-    admin = User.find({
+    admin = User.findOne({
       type: 'Administrator'
     })
-  } catch (err) {
-    return next(
-      new HttpError('Unexpected internal server error occurred, please try again later.', 500)
-    )
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
   return admin.email
@@ -244,12 +175,24 @@ function sendEmail(email, password) {
       'Thank you!'
   }
 
-  transporter.sendMail(info, (err, data) => {
-    if (err)
-      console.log(err)
+  transporter.sendMail(info, (error, data) => {
+    if (error)
+      console.log(error)
     else
       console.log('Email sent successfully.')
   })
+}
+
+function generatePassword() {
+  let length = 5
+  let randomPassword = ''
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let charactersLength = characters.length
+
+  for (let i = 0; i < length; i++)
+    randomPassword += characters.charAt(Math.floor(Math.random() * charactersLength))
+
+  return randomPassword
 }
 
 exports.addStoreManager = addStoreManager
