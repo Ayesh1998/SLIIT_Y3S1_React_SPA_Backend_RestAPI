@@ -1,4 +1,4 @@
-/*const uuid = require("uuid/v4");
+const uuid = require("uuid/v4");
 const HttpError = require("../models/http-errors");
 const ProductComments = require("../models/p roductComments-model");
 
@@ -34,7 +34,7 @@ const addProductComment = async (req, res, next) => {
   res.status(201).json({productComment: createdProductComment.toObject({getters: true})});
 };
 
-const updateProductComment = async (req, res, next) => {
+/*const updateProductComment = async (req, res, next) => {
   ProductComments.findById(req.params.id)
     .then(productComment => {
       productComment.product_id = req.body.product_id;
@@ -73,15 +73,15 @@ const deleteProductComment = async (req, res, next) => {
     .then(() => res.json({message: "Deleted data from DB", delete: 1}))
     .catch(err => res.status(400).json({message: "Deleted failed, please try again.", delete: 0}));
 
-};
+};*/
 
 
 
 
 exports.addProductComment = addProductComment;
-exports.updateProductComment = updateProductComment;
-exports.getProductComments = getProductComments;
-exports.getProductComment = getProductComment;
-exports.deleteProductComment = deleteProductComment;
-*/
+//exports.updateProductComment = updateProductComment;
+//exports.getProductComments = getProductComments;
+//exports.getProductComment = getProductComment;
+//exports.deleteProductComment = deleteProductComment;
+
 
