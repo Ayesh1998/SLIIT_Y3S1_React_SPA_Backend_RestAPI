@@ -14,10 +14,6 @@ const categorySchema = new Schema({
     type: String,
     required: true,
     trim: true
-  },
-  categoryImage: {
-    type: String,
-    required: true
   }
 }, {
   timestamps: true,
