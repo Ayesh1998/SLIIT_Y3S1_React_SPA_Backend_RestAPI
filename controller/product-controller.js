@@ -3,7 +3,7 @@ const HttpError = require("../models/http-errors");
 const Product = require("../models/product-model");
 
 const addProduct = async (req, res, next) => {
-  const { title } = req.body;
+  const {title} = req.body;
 
   const ProductItme = new Product({
     title,
@@ -11,7 +11,7 @@ const addProduct = async (req, res, next) => {
   let existingProduct;
 
   try {
-    existingProduct = await Product.findOne({ title: title });
+    existingProduct = await Product.findOne({title: title});
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -42,12 +42,12 @@ const addProduct = async (req, res, next) => {
     // res.json({ message: "Added Succeefully", added: 1 });
   } catch (err) {
     const error = new HttpError("Adding failed, please try again.", 500);
-    res.json({ message: "Adding failed, please try again.", added: 0 });
+    res.json({message: "Adding failed, please try again.", added: 0});
     return next(error);
   }
 
   res.status(201).json({
-    product: ProductItme.toObject({ getters: true }),
+    product: ProductItme.toObject({getters: true}),
     message: "Added Succeefully",
     added: 1,
   });

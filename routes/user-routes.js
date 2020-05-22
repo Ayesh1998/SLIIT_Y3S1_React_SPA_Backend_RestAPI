@@ -14,5 +14,12 @@ router.delete(
   WishListController.deleteWishList
 );
 router.get("/getWishList/:userID", WishListController.getWishList);
+router.delete(
+  "/deleteWishList/:userID",
+  WishListController.deleteWishListAllUser
+);
+
+//harshani add kale
+router.get('/current-user', UsersController.getUsers);
 
 module.exports = router;
