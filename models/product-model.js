@@ -9,10 +9,35 @@ const ProductSchema = new Schema(
       type: String,
       //   required: true,
     },
-    // userID: {
-    //   type: String,
-    //   required: true,
-    // },
+    category: {
+      type: String,
+      //   required: true,
+    },
+    brand: {
+      type: String,
+      //   required: true,
+    },
+    price: {
+      type: String,
+      //   required: true,
+    },
+    discount: {
+      type: String,
+      //   required: true,
+    },
+    colour: {
+      type: String,
+      //   required: true,
+    },
+    discription: {
+      type: String,
+      //   required: true,
+    }, 
+    image: {
+      type: String,
+      //   required: true,
+    },   
+    
   },
   {
     timestamps: true,
