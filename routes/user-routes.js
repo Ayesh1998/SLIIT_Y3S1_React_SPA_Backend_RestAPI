@@ -19,4 +19,7 @@ router.delete(
   WishListController.deleteWishListAllUser
 );
 
+//harshani add kale
+router.get('/current-user', UsersController.getUsers);
+
 module.exports = router;
