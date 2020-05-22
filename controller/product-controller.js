@@ -100,7 +100,13 @@ const updateProduct = async (req, res, next) => {
     .catch(err => res.status(400).json('Error: ' + err));
 };
 
+const deleteProduct = async (req, res, next) => {
 
+  Product.findByIdAndDelete(req.params.id)
+    .then(() => res.json({message: "Deleted data from DB", delete: 1}))
+    .catch(err => res.status(400).json({message: "Deleted failed, please try again.", delete: 0}));
+
+};
 
 
 exports.addProduct = addProduct;
