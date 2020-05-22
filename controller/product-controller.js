@@ -68,6 +68,34 @@ const addProduct = async (req, res, next) => {
   });
 };
 
+const getProductList = async (req, res, next) => {
+  Product.find()
+    .then(productList => res.json(productList))
+    .catch(err => res.status(400).json("Error: " + err));
+};
+
+
+
+
+const updateProduct = async (req, res, next) => {
+  Product.findById(req.params.id)
+    .then(product => {
+      product.title = req.body.title;
+      product.category = req.body.category;
+      product.brand = req.body.brand;
+      product.price = req.body.price;
+      product.discount = req.body.discount;
+      product.colour = req.body.colour;
+      product.discription = req.body.discription;
+      product.image = req.body.image;
+
+      product.save()
+        .then(() => res.json({message: "Updated data to DB", save: 1}))
+        .catch(err => res.status(400).json({message: "Updated failed, please try again.", save: 0}));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+};
+
 
 
 
