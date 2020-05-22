@@ -15,7 +15,7 @@ const app = express()
 
 app.use(
   bodyParser.urlencoded({
-    extended: true,
+    extended: true
   })
 )
 
@@ -27,7 +27,7 @@ app.use('/admin', AdminRoutes)
 app.use('/payments', PaymentRoutes)
 app.use('/comments', CommentRoutes)
 
-app.use((req, res, next) => {
+app.use(() => {
   throw new HttpError('Could not find this route.', 404)
 })
 
@@ -37,7 +37,7 @@ const port = process.env.PORT
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  useCreateIndex: true
 }
 
 mongoose
@@ -49,12 +49,3 @@ mongoose
   .catch((error) => {
     console.log(error)
   })
-
-// mongoose
-//   .connect(
-//     'mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority'
-//   )
-//   .then(() => {
-//     app.listen(5000)
-//     console.log(`Server is running on port: ${port}`)
-//   })
