@@ -75,7 +75,11 @@ const getProductList = async (req, res, next) => {
 };
 
 
-
+const getProduct = async (req, res, next) => {
+  Product.findById(req.params.id)
+    .then(product => res.json(product))
+    .catch(err => res.status(400).json('Error: ' + err));
+};
 
 const updateProduct = async (req, res, next) => {
   Product.findById(req.params.id)
