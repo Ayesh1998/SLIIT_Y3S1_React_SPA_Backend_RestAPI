@@ -52,13 +52,15 @@ const options = {
 //     console.log(error)
 //   })
 
+const PORT = process.env.PORT || 5000;
+
 mongoose
   .connect(
     "mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority"
   )
   .then(() => {
-    app.listen(5000);
-    console.log(`Server is running on port: ${port}`);
+    app.listen(PORT);
+    console.log(`Server is running on port: ${PORT}`);
   })
   .catch((error) => {
     console.log(error);
