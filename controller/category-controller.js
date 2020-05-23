@@ -17,8 +17,13 @@ const addCategory = async (req, res, next) => {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  if (existingCategory)
+  if (existingCategory) {
+    res.json({
+      exists: true,
+      message: 'A category with the same title already exists.'
+    })
     return next(new HttpError('A category with the same title already exists.', 409))
+  }
 
   const newCategory = new Category({
     categoryTitle,
