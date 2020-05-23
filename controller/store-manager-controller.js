@@ -23,8 +23,13 @@ const addStoreManager = async (req, res, next) => {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  if (existingUser)
+  if (existingUser) {
+    res.json({
+      exists: true,
+      message: 'A user with the same email already exists.'
+    })
     return next(new HttpError('A user with the same email already exists.', 409))
+  }
 
   let generatedPassword = generatePassword()
 
