@@ -68,7 +68,7 @@ const updateCategory = async (req, res, next) => {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
 
-  if (existingCategory && categoryTitle !== category.email) {
+  if (existingCategory && categoryTitle !== category.categoryTitle) {
     res.json({
       exists: true,
       message: 'A category with the same title already exists.'
