@@ -44,6 +44,7 @@ const addAdmin = async (req, res, next) => {
 
 const updateAdmin = async (req, res, next) => {
   let admin
+  let existingUser
 
   const {
     id
@@ -59,6 +60,23 @@ const updateAdmin = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
   }
+
+  try {
+    existingUser = await User.findOne({
+      email: email
+    })
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  if (existingUser && email !== admin.email) {
+    res.json({
+      exists: true,
+      message: 'A user with the same email already exists.'
+    })
+    return next(new HttpError('A user with the same email already exists.', 409))
+  }
+
 
   admin.email = email
   admin.password = password

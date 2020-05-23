@@ -57,6 +57,7 @@ const addStoreManager = async (req, res, next) => {
 
 const updateStoreManager = async (req, res, next) => {
   let storeManager
+  let existingUser
 
   const {
     id
@@ -73,6 +74,22 @@ const updateStoreManager = async (req, res, next) => {
     storeManager = await User.findById(id)
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  try {
+    existingUser = await User.findOne({
+      email: email
+    })
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  if (existingUser && email !== storeManager.email) {
+    res.json({
+      exists: true,
+      message: 'A user with the same email already exists.'
+    })
+    return next(new HttpError('A user with the same email already exists.', 409))
   }
 
   storeManager.firstName = firstName

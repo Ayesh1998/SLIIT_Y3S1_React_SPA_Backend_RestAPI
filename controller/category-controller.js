@@ -43,6 +43,7 @@ const addCategory = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
   let category
+  let existingCategory
 
   const {
     id
@@ -57,6 +58,22 @@ const updateCategory = async (req, res, next) => {
     category = await Category.findById(id)
   } catch (error) {
     return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  try {
+    existingCategory = await Category.findOne({
+      categoryTitle: categoryTitle
+    })
+  } catch (error) {
+    return next(new HttpError('Unexpected internal server error occurred, please try again later.', 500))
+  }
+
+  if (existingCategory && categoryTitle !== category.email) {
+    res.json({
+      exists: true,
+      message: 'A category with the same title already exists.'
+    })
+    return next(new HttpError('A category with the same title already exists.', 409))
   }
 
   category.categoryTitle = categoryTitle
