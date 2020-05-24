@@ -16,7 +16,7 @@ const app = express()
 
 app.use(
   bodyParser.urlencoded({
-    extended: true,
+    extended: true
   })
 )
 
@@ -39,7 +39,7 @@ const port = process.env.PORT || 5000
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  useCreateIndex: true
 }
 
 mongoose
