@@ -8,34 +8,41 @@ const ProductSchema = new Schema(
     title: {
       type: String,
       required: true,
+      unique: true,
+      trim: true
     },
     category: {
       type: String,
       required: true,
+      trim: true
     },
     brand: {
       type: String,
       required: true,
+      trim: true
     },
     price: {
       type: String,
       required: true,
+      trim: true
     },
     discount: {
       type: String,
-      required: true,
+      trim: true
     },
     colour: {
       type: String,
       required: true,
+      trim: true
     },
     discription: {
       type: String,
       required: true,
+      trim: true
     },
     image: {
       type: String,
-      required: true,
+      trim: true
     },
 
   },

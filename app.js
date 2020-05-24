@@ -42,12 +42,25 @@ const options = {
   useCreateIndex: true
 }
 
-mongoose
-  .connect(uri, options)
+// mongoose
+//   .connect(uri, options)
+//   .then(() => {
+//     app.listen(port)
+//     console.log(`Server is running on port: ${port}`)
+//   })
+//   .catch((error) => {
+//     console.log(error)
+//   })
+
+  mongoose
+  .connect("mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority")
   .then(() => {
-    app.listen(port)
+    app.listen(5000)
     console.log(`Server is running on port: ${port}`)
   })
   .catch((error) => {
     console.log(error)
   })
+
+
+  
