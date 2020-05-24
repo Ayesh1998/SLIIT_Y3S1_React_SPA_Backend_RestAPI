@@ -27,14 +27,14 @@ app.use('/users', UserRoutes)
 app.use('/admin', AdminRoutes)
 app.use('/payments', PaymentRoutes)
 app.use('/comments', CommentRoutes)
-app.use("/storemanager", StoremanagerRoutes)
+app.use('/storemanager', StoremanagerRoutes)
 
 app.use(() => {
   throw new HttpError('Could not find this route.', 404)
 })
 
 const uri = process.env.ATLAS_URI
-const port = process.env.PORT
+const port = process.env.PORT || 5000
 
 const options = {
   useNewUrlParser: true,
