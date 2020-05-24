@@ -27,7 +27,7 @@ const addProduct = async (req, res, next) => {
   let existingProduct;
 
   try {
-    existingProduct = await Product.findOne({ title: title });
+    existingProduct = await Product.findOne({title: title});
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -57,12 +57,12 @@ const addProduct = async (req, res, next) => {
     // res.json({ message: "Added Succeefully", added: 1 });
   } catch (err) {
     const error = new HttpError("Adding failed, please try again.", 500);
-    res.json({ message: "Adding failed, please try again.", added: 0 });
+    res.json({message: "Adding failed, please try again.", added: 0});
     return next(error);
   }
 
   res.status(201).json({
-    product: ProductItme.toObject({ getters: true }),
+    product: ProductItme.toObject({getters: true}),
     message: "Added Succeefully",
     added: 1,
   });
@@ -98,11 +98,11 @@ const updateProduct = async (req, res, next) => {
 
       product
         .save()
-        .then(() => res.json({ message: "Updated data to DB", save: 1 }))
+        .then(() => res.json({message: "Updated data to DB", save: 1}))
         .catch((err) =>
           res
             .status(400)
-            .json({ message: "Updated failed, please try again.", save: 0 })
+            .json({message: "Updated failed, please try again.", save: 0})
         );
     })
     .catch((err) => res.status(400).json("Error: " + err));
@@ -110,11 +110,11 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   Product.findByIdAndDelete(req.params.id)
-    .then(() => res.json({ message: "Deleted data from DB", delete: 1 }))
+    .then(() => res.json({message: "Deleted data from DB", delete: 1}))
     .catch((err) =>
       res
         .status(400)
-        .json({ message: "Deleted failed, please try again.", delete: 0 })
+        .json({message: "Deleted failed, please try again.", delete: 0})
     );
 };
 
