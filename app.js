@@ -9,6 +9,7 @@ const AdminRoutes = require('./routes/admin-routes')
 const PaymentRoutes = require('./routes/payment-routes')
 const CommentRoutes = require('./routes/comment-routes')
 const StoremanagerRoutes = require('./routes/storemanager-routes')
+const ReviewRoutes = require('./routes/review-routes')
 
 require('dotenv').config()
 
@@ -28,6 +29,7 @@ app.use('/admin', AdminRoutes)
 app.use('/payments', PaymentRoutes)
 app.use('/comments', CommentRoutes)
 app.use('/storemanager', StoremanagerRoutes)
+app.use('/review', ReviewRoutes)
 
 app.use(() => {
   throw new HttpError('Could not find this route.', 404)
@@ -42,25 +44,12 @@ const options = {
   useCreateIndex: true
 }
 
-// mongoose
-//   .connect(uri, options)
-//   .then(() => {
-//     app.listen(port)
-//     console.log(`Server is running on port: ${port}`)
-//   })
-//   .catch((error) => {
-//     console.log(error)
-//   })
-
-  mongoose
-  .connect("mongodb+srv://ayesh:ayesh@ayesh-mongo-cluster-jqsxb.mongodb.net/sliit-y3s1-reactapp?retryWrites=true&w=majority")
+mongoose
+  .connect(uri, options)
   .then(() => {
-    app.listen(5000)
+    app.listen(port)
     console.log(`Server is running on port: ${port}`)
   })
   .catch((error) => {
     console.log(error)
   })
-
-
-  
