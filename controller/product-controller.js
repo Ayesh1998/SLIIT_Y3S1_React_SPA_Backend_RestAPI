@@ -109,7 +109,8 @@ const updateProduct = async (req, res, next) => {
 };
 
 const deleteProduct = async (req, res, next) => {
-  Product.findByIdAndDelete(req.params.id)
+  let title = req.params.id;
+  Product.deleteOne({ title })
     .then(() => res.json({ message: "Deleted data from DB", delete: 1 }))
     .catch((err) =>
       res

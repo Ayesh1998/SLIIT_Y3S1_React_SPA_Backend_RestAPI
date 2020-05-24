@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 // const Schema = mongoose.Schema
@@ -18,9 +18,12 @@ const itemRatingsAndReviewsSchema = new mongoose.Schema({
   rating: {
     type: Number,
     required: true,
-  }
-})
+  },
+});
 
-categorySchema.plugin(uniqueValidator)
+itemRatingsAndReviewsSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('ReviewsAndRatings', itemRatingsAndReviewsSchema)
+module.exports = mongoose.model(
+  "ReviewsAndRatings",
+  itemRatingsAndReviewsSchema
+);
