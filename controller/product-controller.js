@@ -22,12 +22,12 @@ const addProduct = async (req, res, next) => {
     discount,
     colour,
     discription,
-    image
+    image,
   });
   let existingProduct;
 
   try {
-    existingProduct = await Product.findOne({title: title});
+    existingProduct = await Product.findOne({ title: title });
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -46,7 +46,7 @@ const addProduct = async (req, res, next) => {
       422
     );
     res.json({
-      message: "User already exists, please login instead."
+      message: "User already exists, please login instead.",
     });
     return next(error);
   }
@@ -57,12 +57,12 @@ const addProduct = async (req, res, next) => {
     // res.json({ message: "Added Succeefully", added: 1 });
   } catch (err) {
     const error = new HttpError("Adding failed, please try again.", 500);
-    res.json({message: "Adding failed, please try again.", added: 0});
+    res.json({ message: "Adding failed, please try again.", added: 0 });
     return next(error);
   }
 
   res.status(201).json({
-    product: ProductItme.toObject({getters: true}),
+    product: ProductItme.toObject({ getters: true }),
     message: "Added Succeefully",
     added: 1,
   });
@@ -70,20 +70,21 @@ const addProduct = async (req, res, next) => {
 
 const getProductList = async (req, res, next) => {
   Product.find()
-    .then(productList => res.json(productList))
-    .catch(err => res.status(400).json("Error: " + err));
+    .then((productList) => res.json(productList))
+    .catch((err) => res.status(400).json("Error: " + err));
 };
-
 
 const getProduct = async (req, res, next) => {
   Product.find(req.params.id)
-    .then(product => res.json(product))
-    .catch(err => res.status(400).json('Error: ' + err));
+    .then((product) => res.json(product))
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
 const updateProduct = async (req, res, next) => {
-  Product.find(req.params.id)
-    .then(product => {
+  Product.findOne(() => {
+    title = req.params.id;
+  })
+    .then((product) => {
       product.title = req.body.title;
       product.category = req.body.category;
       product.brand = req.body.brand;
@@ -93,21 +94,29 @@ const updateProduct = async (req, res, next) => {
       product.discription = req.body.discription;
       product.image = req.body.image;
 
-      product.save()
-        .then(() => res.json({message: "Updated data to DB", save: 1}))
-        .catch(err => res.status(400).json({message: "Updated failed, please try again.", save: 0}));
+      console.log(product);
+
+      product
+        .save()
+        .then(() => res.json({ message: "Updated data to DB", save: 1 }))
+        .catch((err) =>
+          res
+            .status(400)
+            .json({ message: "Updated failed, please try again.", save: 0 })
+        );
     })
-    .catch(err => res.status(400).json('Error: ' + err));
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
 const deleteProduct = async (req, res, next) => {
-
   Product.findByIdAndDelete(req.params.id)
-    .then(() => res.json({message: "Deleted data from DB", delete: 1}))
-    .catch(err => res.status(400).json({message: "Deleted failed, please try again.", delete: 0}));
-
+    .then(() => res.json({ message: "Deleted data from DB", delete: 1 }))
+    .catch((err) =>
+      res
+        .status(400)
+        .json({ message: "Deleted failed, please try again.", delete: 0 })
+    );
 };
-
 
 exports.addProduct = addProduct;
 exports.updateProduct = updateProduct;
