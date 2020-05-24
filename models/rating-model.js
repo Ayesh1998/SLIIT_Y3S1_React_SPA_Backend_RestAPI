@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require("mongoose-unique-validator");
 
-// const Schema = mongoose.Schema
-
 const itemRatingsAndReviewsSchema = new mongoose.Schema({
   itemID: {
     type: String,
@@ -21,6 +19,6 @@ const itemRatingsAndReviewsSchema = new mongoose.Schema({
   }
 })
 
-categorySchema.plugin(uniqueValidator)
+itemRatingsAndReviewsSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('ReviewsAndRatings', itemRatingsAndReviewsSchema)
