@@ -174,7 +174,7 @@ const getAdminEmail = async () => {
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'tharindarajapakshe@gmail.com',
+    user: 'it18149654@gmail.com',
     pass: process.env.PASSWORD
   }
 })
